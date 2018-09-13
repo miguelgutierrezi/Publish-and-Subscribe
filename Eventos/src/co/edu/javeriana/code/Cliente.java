@@ -10,17 +10,27 @@ import java.util.ArrayList;
  *
  */
 public class Cliente {
-	ArrayList<String> types;
-	ArrayList<String> matches;
-	ArrayList<Evento> eventos;
+	private String LocalIp;
+	private ArrayList<String> types;
+	private ArrayList<String> matches;
+	private ArrayList<Evento> eventos;
 	/**
 	 * 
 	 */
-	public Cliente() {
+	public Cliente(String LocalIp) {
 		super();
+		this.LocalIp = LocalIp;
 		types = new ArrayList<String>();
 		matches = new ArrayList<String>();
 		eventos = new ArrayList<Evento>();
+	}
+	
+	public void setLocalIp (String LocalIp) {
+		this.LocalIp = LocalIp;
+	}
+	
+	public String getLocalIp () {
+		return LocalIp;
 	}
 	
 	public ArrayList<String> getTypes() {
@@ -49,6 +59,6 @@ public class Cliente {
 	
 	@Override
 	public String toString() {
-		return "Cliente [types=" + types + ", matches=" + matches + ", eventos=" + eventos + "]";
+		return "Cliente [LocalIp=" + ", types=" + types + ", matches=" + matches + ", eventos=" + eventos + "]";
 	}
 }

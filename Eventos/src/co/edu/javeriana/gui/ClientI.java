@@ -30,7 +30,6 @@ public class ClientI {
 	 */
 	public static void main(String[] args) throws UnknownHostException, IOException, ClassNotFoundException {
 		// TODO Auto-generated method stub
-		while(true) {
 			Socket clientSocket = new Socket("localhost", 4980);
 			ArrayList<Evento> eventos = new ArrayList<Evento>();
 			ObjectInputStream objectInput = new ObjectInputStream(clientSocket.getInputStream());
@@ -49,6 +48,5 @@ public class ClientI {
 		    	}
 			}
 			clientSocket.close();
-		}
 	}
 }
