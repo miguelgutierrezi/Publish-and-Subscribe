@@ -1,3 +1,0 @@
-19:47:00*incendio*fuego,llamas,agua
-19:48:00*temblor*tierra,movimiento
-19:49:00*inundacion*agua
