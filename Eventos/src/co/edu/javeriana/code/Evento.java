@@ -13,23 +13,23 @@ import java.util.List;
  *
  */
 public class Evento implements Serializable {
+	private static final long serialVersionUID = 1L;
 	private LocalTime hora_publicacion;
-	private ArrayList<String> tipos;
+	private String tipos;
 	private ArrayList<String> match;
 	private int id;
 	
-	public Evento(LocalTime hora_publicacion, ArrayList<String> tipos, int id) {
+	public Evento(LocalTime hora_publicacion, String tipo, ArrayList<String> match) {
 		super();
 		this.hora_publicacion = hora_publicacion;
-		this.tipos = new ArrayList<String> ();
-		this.match = new ArrayList<String>();
+		this.tipos = tipo;
+		this.match = match;
 		this.id = -1;
 	}
 	
 	public Evento() {
 		// TODO Auto-generated constructor stub
 		this.id = -1;
-		tipos = new ArrayList <String>();
 		match = new ArrayList<String>();
 	}
 
@@ -49,14 +49,18 @@ public class Evento implements Serializable {
 		this.id = id;
 	}
 	
-	public void setTipos(ArrayList<String> tipos) {
+	public void setTipos(String tipos) {
 		this.tipos = tipos;
 	}
 	
-	public void addTipos(String tipo) {
-		this.tipos.add(tipo);
+	public String getTipos() {
+		return tipos;
 	}
-
+	
+	public ArrayList<String> getMatch() {
+		return match;
+	}
+	
 	public void setMatch(ArrayList<String> match) {
 		this.match = match;
 	}
@@ -69,6 +73,4 @@ public class Evento implements Serializable {
 	public String toString() {
 		return "Evento [hora_publicacion = " + hora_publicacion + ", tipos = " + tipos + ", id = " + id + "]";
 	}
-	
-	
 }

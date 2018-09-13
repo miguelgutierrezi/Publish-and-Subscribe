@@ -8,6 +8,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.StringTokenizer;
 import java.util.concurrent.TimeUnit;
 
@@ -16,36 +17,46 @@ import java.util.concurrent.TimeUnit;
  *
  */
 public class Utils {
-	public static void Read_File (String File_Name) throws IOException, FileNotFoundException, InterruptedException{
+	public static ArrayList<Evento> Read_File (String File_Name) throws IOException, FileNotFoundException, InterruptedException{
+
+		ArrayList<Evento> eventos = new ArrayList<Evento>();
+		ArrayList<String> matches = new ArrayList<String>();
+		Evento evento;
 		String cadena;
         FileReader f = new FileReader(File_Name);
         BufferedReader b = new BufferedReader(f);
+        
         while((cadena = b.readLine())!=null) {
-            StringTokenizer tokens = new StringTokenizer(cadena, "*");
+
+        	StringTokenizer tokens = new StringTokenizer(cadena, "*");
         	int a = 0;
         	String token;
         	LocalTime time = LocalTime.parse("00:00");
         	String tipo = null;
-        	String matches = null;
+        	matches = new ArrayList<String>();
+        	
         	while(tokens.hasMoreTokens()){
         		a++;
         		token = tokens.nextToken();
         		if (a == 1) {time = LocalTime.parse(token);};
         		if (a == 2) {tipo = token;};
-        		if (a == 3) {matches = token;};
-        	}
-        	while (true) {
-        		if (time.equals(LocalTime.now()) == true) {
-        			System.out.println("********************");
-        			System.out.println(time);
-        			System.out.println(tipo);
-        			System.out.println(matches);
-        			System.out.println("Ya pare, voy a enviar el mensaje");
-        			break;
+        		if (a == 3) {
+        			StringTokenizer colon = new StringTokenizer(token, ",");
+        			
+        			while (colon.hasMoreTokens()) {
+        				token = colon.nextToken();
+        				matches.add(token);
+        			}
+        			
         		}
         	}
+        	
+        	evento = new Evento(time, tipo, matches);
+        	eventos.add(evento);
         }
+
         b.close();
+        return eventos;
 	}
 	
 	public static void main(String[] args) throws IOException, InterruptedException {
@@ -60,6 +71,6 @@ public class Utils {
         System.out.println(horaS.toString());
 		System.out.println(LocalTime.now().toString());*/
 		
-		Read_File("C:\\Users\\Miguel\\eclipse-workspace\\Eventos\\src\\co\\edu\\javeriana\\code\\eventos.txt");
+		Read_File("eventos.txt");
     }
 }
