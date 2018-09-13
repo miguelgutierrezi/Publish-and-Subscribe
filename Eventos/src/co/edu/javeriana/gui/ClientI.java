@@ -23,6 +23,7 @@ import co.edu.javeriana.code.Evento;
 public class ClientI {
 	
 	public static void print_Events (ArrayList<Evento> eventos) {
+		
 		for (Evento e: eventos) {
     		if ((e.getHora_publicacion().equals(LocalTime.now()) == true) || (e.getHora_publicacion().isBefore(LocalTime.now()))) {
     			System.out.println("********************************************************************");

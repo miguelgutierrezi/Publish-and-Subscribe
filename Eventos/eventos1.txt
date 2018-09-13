@@ -1,4 +1,4 @@
-14:35:00*tsunami*agua
-14:35:15*huracan*tierra,movimiento
-14:35:30*golpe de estado*politica,ciudad
-14:35:45*ataque terrorista*bombas,peligro,secuestro
+14:35:00*tsunami*agua*castilla
+14:35:15*huracan*tierra,movimiento*normandia
+14:35:30*golpe de estado*politica,ciudad*santa fe
+14:35:45*ataque terrorista*bombas,peligro,secuestro*suba

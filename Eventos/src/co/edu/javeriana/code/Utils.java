@@ -35,6 +35,7 @@ public class Utils {
         	String token;
         	LocalTime time = LocalTime.parse("00:00");
         	String tipo = null;
+        	String ubicacion = null;
         	matches = new ArrayList<String>();
         	
         	while(tokens.hasMoreTokens()){
@@ -51,9 +52,10 @@ public class Utils {
         			}
         			
         		}
+        		if (a == 4) {ubicacion = token;};
         	}
         	
-        	evento = new Evento(time, tipo, matches);
+        	evento = new Evento(time, tipo, matches, ubicacion);
         	eventos.add(evento);
         }
 

@@ -16,14 +16,16 @@ public class Evento implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private LocalTime hora_publicacion;
 	private String tipos;
+	private String ubicacion;
 	private ArrayList<String> match;
 	private int id;
 	
-	public Evento(LocalTime hora_publicacion, String tipo, ArrayList<String> match) {
+	public Evento(LocalTime hora_publicacion, String tipo, ArrayList<String> match, String ubicacion) {
 		super();
 		this.hora_publicacion = hora_publicacion;
 		this.tipos = tipo;
 		this.match = match;
+		this.ubicacion = ubicacion;
 		this.id = -1;
 	}
 	
@@ -39,6 +41,14 @@ public class Evento implements Serializable {
 
 	public void setHora_publicacion(LocalTime hora_publicacion) {
 		this.hora_publicacion = hora_publicacion;
+	}
+	
+	public String getUbicacion() {
+		return ubicacion;
+	}
+	
+	public void setUbicacion(String ubicacion) {
+		this.ubicacion = ubicacion;
 	}
 
 	public int getId() {
