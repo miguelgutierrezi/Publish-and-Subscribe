@@ -39,9 +39,9 @@ public class Server {
 		File_Name = "eventos1.txt";
 		eventos.addAll(Utils.Read_File(File_Name));
 		
-		/*for (Evento e: eventos) {    
+		for (Evento e: eventos) {    
 			while (true) {
-	    		if (e.getHora_publicacion().equals(LocalTime.now()) == true) {
+	    		if ((e.getHora_publicacion().equals(LocalTime.now()) == true)  || (e.getHora_publicacion().isBefore(LocalTime.now()))) {
 	    			System.out.println("********************");
 	    			System.out.println(e.getHora_publicacion());
 	    			System.out.println(e.getTipos());
@@ -49,7 +49,7 @@ public class Server {
 	    			break;
 	    		}	
 	    	}
-        }*/
+        }
 		
 		ServerSocket welcomeSocket = new ServerSocket(4980);
 		while (true) {

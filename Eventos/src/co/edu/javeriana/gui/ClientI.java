@@ -21,6 +21,17 @@ import co.edu.javeriana.code.Evento;
  *
  */
 public class ClientI {
+	
+	public static void print_Events (ArrayList<Evento> eventos) {
+		for (Evento e: eventos) {
+    		if ((e.getHora_publicacion().equals(LocalTime.now()) == true) || (e.getHora_publicacion().isBefore(LocalTime.now()))) {
+    			System.out.println("********************************************************************");
+    			System.out.println(e.getHora_publicacion());
+    			System.out.println(e.getTipos());
+    			System.out.println(e.getMatch());	
+    		}
+		}
+	}
 
 	/**
 	 * @param args
@@ -36,17 +47,8 @@ public class ClientI {
 			Object object = objectInput.readObject();
 			eventos = (ArrayList<Evento>) object;
 			
-			for (Evento e: eventos) {
-				while (true) {
-		    		if ((e.getHora_publicacion().equals(LocalTime.now()) == true) || (e.getHora_publicacion().isBefore(LocalTime.now()))) {
-		    			System.out.println("********************");
-		    			System.out.println(e.getHora_publicacion());
-		    			System.out.println(e.getTipos());
-		    			System.out.println(e.getMatch());
-		    			break;
-		    		}	
-		    	}
-			}
+			print_Events (eventos);
+			
 			clientSocket.close();
-	}
+		}
 }
