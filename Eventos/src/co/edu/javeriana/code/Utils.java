@@ -9,6 +9,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.concurrent.TimeUnit;
 
@@ -59,8 +61,51 @@ public class Utils {
         return eventos;
 	}
 	
+	public static ArrayList<String> Obtain_Types(ArrayList<Evento> eventos) {
+		ArrayList<String> types = new ArrayList<String>();
+		
+		for (Evento e: eventos) {
+			types.add(e.getTipos());
+		}
+		
+		Set<String> hs = new HashSet<String>();
+		hs.addAll(types);
+		types.clear();
+		types.addAll(hs);
+		
+		for (String s: types) {
+			System.out.println(s);
+		}
+		
+		return types;
+	}
+	
+	public static ArrayList<String> Obtain_Matches(ArrayList<Evento> eventos) {
+		ArrayList<String> matches = new ArrayList<String>();
+		
+		for (Evento e: eventos) {
+			for (String s: e.getMatch()) {
+				matches.add(s);
+			}
+		}
+		
+		Set<String> hs = new HashSet<String>();
+		hs.addAll(matches);
+		matches.clear();
+		matches.addAll(hs);
+		
+		for (String s: matches) {
+			System.out.println(s);
+		}
+		
+		return matches;
+	}
+	
 	public static void main(String[] args) throws IOException, InterruptedException {
         
+		ArrayList<String> matches = new ArrayList<String>();
+		ArrayList<String> types = new ArrayList<String>();
+		
 		/*String hora = "19:39:00";
         LocalTime horaS = LocalTime.parse(hora);
         
@@ -71,6 +116,12 @@ public class Utils {
         System.out.println(horaS.toString());
 		System.out.println(LocalTime.now().toString());*/
 		
-		Read_File("eventos.txt");
+		System.out.println("Tipos\n");
+		types.addAll(Obtain_Types(Read_File("eventos.txt")));
+		types.addAll(Obtain_Types(Read_File("eventos1.txt")));
+		
+		System.out.println("\nMatches\n");
+		matches.addAll(Obtain_Matches(Read_File("eventos1.txt")));
+		matches.addAll(Obtain_Matches(Read_File("eventos.txt")));
     }
 }
