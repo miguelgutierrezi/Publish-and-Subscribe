@@ -12,7 +12,7 @@ import java.util.List;
  * @author Miguel
  *
  */
-public class Evento implements Serializable {
+public class Evento implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private LocalTime hora_publicacion;
 	private String tipos;

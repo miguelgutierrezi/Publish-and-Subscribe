@@ -13,8 +13,10 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Scanner;
 
+import co.edu.javeriana.code.EventComparator;
 import co.edu.javeriana.code.Evento;
 import co.edu.javeriana.code.Utils;
 
@@ -46,6 +48,7 @@ public class Server {
 			s = car.nextLine();
 		} while (s.equals("s"));
 		
+		Collections.sort(eventos, (e1, e2) -> e1.getHora_publicacion().compareTo(e2.getHora_publicacion()));
 		for (Evento e: eventos) {    
 			while (true) {
 	    		if ((e.getHora_publicacion().equals(LocalTime.now()) == true)  || (e.getHora_publicacion().isBefore(LocalTime.now()))) {

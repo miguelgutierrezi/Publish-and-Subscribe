@@ -5,6 +5,7 @@ package co.edu.javeriana.gui;
 
 import java.awt.EventQueue;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -33,6 +34,11 @@ import java.awt.event.ActionEvent;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
+import javax.swing.border.LineBorder;
+import javax.swing.BoxLayout;
+import java.awt.GridLayout;
+import javax.swing.JScrollPane;
+import javax.swing.SwingConstants;
 
 public class ServerInterface extends JFrame {
 	private JTable table_1;
@@ -45,6 +51,8 @@ public class ServerInterface extends JFrame {
 		panel.setLayout(null);
 		
 		JButton btnSeleccionarArchivo = new JButton("Seleccionar archivo");
+		btnSeleccionarArchivo.setFont(new Font("Buxton Sketch", Font.PLAIN, 13));
+		btnSeleccionarArchivo.setBounds(10, 201, 144, 29);
 		btnSeleccionarArchivo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				JFileChooser file = new JFileChooser();
@@ -54,82 +62,63 @@ public class ServerInterface extends JFrame {
 					File selectedFile = file.getSelectedFile();
 					System.out.println(selectedFile.getAbsolutePath());
 					try {
-						eventos = Utils.Read_File(selectedFile.getName());
+						eventos.addAll(Utils.Read_File(selectedFile.getName()));
 					} catch (IOException | InterruptedException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 					
+					Collections.sort(eventos, (e1, e2) -> e1.getHora_publicacion().compareTo(e2.getHora_publicacion()));
 					agregarDatos();
-					for (Evento e: eventos) {    
-						while (true) {
-				    		if ((e.getHora_publicacion().equals(LocalTime.now()) == true)  || (e.getHora_publicacion().isBefore(LocalTime.now()))) {
-				    			System.out.println("********************************************");
-				    			System.out.println(e.getHora_publicacion());
-				    			System.out.println(e.getTipos());
-				    			System.out.println(e.getMatch());
-				    			System.out.println(e.getUbicacion());
-				    			break;
-				    		}	
-				    	}
-			        }
 				}
 				
 			}
 		});
-		btnSeleccionarArchivo.setBounds(22, 212, 146, 23);
-		panel.add(btnSeleccionarArchivo);
-		
-		JTextPane txtpnServidor = new JTextPane();
-		txtpnServidor.setBackground(SystemColor.menu);
-		txtpnServidor.setText(" Servidor");
-		txtpnServidor.setFont(new Font("Tahoma", Font.PLAIN, 25));
-		txtpnServidor.setBounds(166, 11, 105, 36);
-		panel.add(txtpnServidor);
 		
 		table_1 = new JTable();
+		table_1.setFont(new Font("Buxton Sketch", Font.PLAIN, 11));
+		table_1.setSurrendersFocusOnKeystroke(true);
+		table_1.setColumnSelectionAllowed(true);
+		table_1.setBounds(11, 48, 413, 142);
+		table_1.setBorder(new LineBorder(new Color(0, 0, 0)));
 		table_1.setModel(new DefaultTableModel(
 			new Object[][] {
 			},
 			new String[] {
-				"New column", "New column", "New column", "New column"
+				"Hora", "Tipo", "Datos", "Ubicacion"
 			}
 		));
-		table_1.setBounds(403, 78, -374, 84);
 		panel.add(table_1);
+		panel.add(btnSeleccionarArchivo);
+		
+		JLabel lblServidor = new JLabel("Servidor");
+		lblServidor.setHorizontalAlignment(SwingConstants.CENTER);
+		lblServidor.setFont(new Font("Buxton Sketch", Font.PLAIN, 25));
+		lblServidor.setBounds(11, 11, 413, 26);
+		panel.add(lblServidor);
 	}
 	
 	private void agregarDatos() {
 
-		DefaultTableModel modelo = (DefaultTableModel) table_1.getModel();
+		DefaultTableModel tableModel = new DefaultTableModel();
+		String[] columnNames = {"Hora", "Tipo", "Datos", "Ubicacion"};
+		tableModel.setColumnIdentifiers(columnNames);
+		Object[] fila = new Object[tableModel.getColumnCount()];
 
-		String datos[] = new String[4];// ARRAY DE 4
-
-		// LE PASO AL ARRAY LOS DATOS DEL ARRAYLIST
-
-		for (Evento e: eventos) {
-
-			datos[0] = e.getHora_publicacion().toString();
-			datos[1] = e.getTipos();
-			for (String s: e.getMatch()) {
-				datos[2] += s;
+		for (int i = 0; i < eventos.size(); i++) {
+			
+			while(true) {
+				if ((eventos.get(i).getHora_publicacion().equals(LocalTime.now()) == true)  || (eventos.get(i).getHora_publicacion().isBefore(LocalTime.now()))) {
+					fila[0] = eventos.get(i).getHora_publicacion();
+					fila[1] = eventos.get(i).getTipos();
+					fila[2] = eventos.get(i).getMatch();
+					fila[3] = eventos.get(i).getUbicacion();
+					tableModel.addRow(fila);
+					break;
+				}
 			}
-			datos[3] = e.getUbicacion();
-			modelo.addRow(datos);
 		}
-		TableColumn colum1 = null;
-		colum1 = table_1.getColumnModel().getColumn(0);
-		colum1.setPreferredWidth(60);
-		TableColumn colum2 = null;
-		colum2 = table_1.getColumnModel().getColumn(1);
-		colum2.setPreferredWidth(5);
-		TableColumn colum3 = null;
-		colum3 = table_1.getColumnModel().getColumn(2);
-		colum3.setPreferredWidth(40);
-		colum3.setPreferredWidth(10);
-		TableColumn colum4 = null;
-		colum4 = table_1.getColumnModel().getColumn(3);
-		colum4.setPreferredWidth(10);
+
+		table_1.setModel(tableModel);
 	}
 	
 	public static void main(String[] args) {
