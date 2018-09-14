@@ -19,34 +19,32 @@ import co.edu.javeriana.gui.ServerInterface;
  *
  */
 public class HiloServer extends Thread {
-	private DataInputStream indata;
-	private ObjectInputStream in;
-	private ObjectOutputStream out;
-	private DataOutputStream outdata;
-	private Socket clientSocket;
-	private ServerInterface iface;
-	private int port;
+	DataInputStream indata;
+	ObjectInputStream in;
+	ObjectOutputStream out;
+	DataOutputStream outdata;
+	Socket clientSocket;
 	
-	public  HiloServer (ServerInterface s) 
+	public  HiloServer (Socket aClientSocket) 
 	{
-		this.iface = s;
-		this.port = 4980;
-	    this.start();
+		try 
+	    {
+			  clientSocket = aClientSocket;
+			  in = new ObjectInputStream(clientSocket.getInputStream());
+			  out = new ObjectOutputStream(clientSocket.getOutputStream());
+			  outdata = new DataOutputStream(clientSocket.getOutputStream());
+			  this.start();
+		} 
+		catch(IOException e)
+	    {
+		      System.out.println("Connection:"+e.getMessage());
+	    }
 	}
 	
 	public void run() {
-		try {
-			ServerSocket listener = new ServerSocket(this.port);
-			
-			while(true) {
-		   		     	
-		   	      Socket clientSocket = listener.accept();
-		   	      ServerConnect c = new ServerConnect(clientSocket, iface);
-		   	}
-			
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		ArrayList<Evento> eventos = new ArrayList<Evento>();
+		while (true) {
+			eventos = (ArrayList<Evento>) in.readObject();
 		}
 	}
 }
