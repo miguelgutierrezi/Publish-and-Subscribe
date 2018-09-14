@@ -67,7 +67,7 @@ public class ClientI {
 			
 		Cliente cliente;
 		cliente = agregar_Cliente();
-		Socket clientSocket = new Socket("192.168.21.1", 4980);
+		Socket clientSocket = new Socket("192.168.0.16", 4980);
 		ArrayList<Evento> eventos = new ArrayList<Evento>();
 		ArrayList<Evento> events = new ArrayList<Evento>();
 		ObjectInputStream objectInput = new ObjectInputStream(clientSocket.getInputStream());
