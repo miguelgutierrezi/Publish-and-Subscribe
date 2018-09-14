@@ -44,7 +44,12 @@ public class HiloServer extends Thread {
 	public void run() {
 		ArrayList<Evento> eventos = new ArrayList<Evento>();
 		while (true) {
-			eventos = (ArrayList<Evento>) in.readObject();
+			try {
+				eventos = (ArrayList<Evento>) in.readObject();
+			} catch (ClassNotFoundException | IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 }
