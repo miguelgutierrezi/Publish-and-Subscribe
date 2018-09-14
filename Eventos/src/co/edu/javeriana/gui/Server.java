@@ -46,9 +46,6 @@ public class Server {
 			s = car.nextLine();
 		} while (s.equals("s"));
 		
-		/*File_Name = "eventos1.txt";
-		eventos.addAll(Utils.Read_File(File_Name));*/
-		
 		for (Evento e: eventos) {    
 			while (true) {
 	    		if ((e.getHora_publicacion().equals(LocalTime.now()) == true)  || (e.getHora_publicacion().isBefore(LocalTime.now()))) {

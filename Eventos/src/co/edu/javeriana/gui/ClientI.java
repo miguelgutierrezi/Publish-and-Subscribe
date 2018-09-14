@@ -9,11 +9,14 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
+import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Scanner;
 
+import co.edu.javeriana.code.Cliente;
 import co.edu.javeriana.code.Evento;
 
 /**
@@ -21,6 +24,25 @@ import co.edu.javeriana.code.Evento;
  *
  */
 public class ClientI {
+	
+	public static Cliente agregar_Cliente () throws UnknownHostException {
+		Cliente cliente;
+		String ubicacion;
+		int cant_hijos;
+		InetAddress LocalIp = InetAddress.getLocalHost();
+		
+		Scanner u = new Scanner(System.in);
+		System.out.print("Introduzca su ubicacion: ");
+		ubicacion = u.nextLine();
+		
+		Scanner c = new Scanner(System.in);
+		System.out.print("Introduzca su cantidad de hijos: ");
+		cant_hijos = c.nextInt();
+		
+		cliente = new Cliente(LocalIp, ubicacion, cant_hijos);
+		
+		return cliente;
+	}
 	
 	public static void print_Events (ArrayList<Evento> eventos) {
 		
@@ -42,14 +64,24 @@ public class ClientI {
 	 */
 	public static void main(String[] args) throws UnknownHostException, IOException, ClassNotFoundException {
 		// TODO Auto-generated method stub
-			Socket clientSocket = new Socket("localhost", 4980);
-			ArrayList<Evento> eventos = new ArrayList<Evento>();
-			ObjectInputStream objectInput = new ObjectInputStream(clientSocket.getInputStream());
-			Object object = objectInput.readObject();
-			eventos = (ArrayList<Evento>) object;
 			
-			print_Events (eventos);
+		Cliente cliente;
+		cliente = agregar_Cliente();
+		Socket clientSocket = new Socket("192.168.21.1", 4980);
+		ArrayList<Evento> eventos = new ArrayList<Evento>();
+		ArrayList<Evento> events = new ArrayList<Evento>();
+		ObjectInputStream objectInput = new ObjectInputStream(clientSocket.getInputStream());
+		Object object = objectInput.readObject();
+		eventos = (ArrayList<Evento>) object;
 			
-			clientSocket.close();
+		for (Evento ev: eventos) {
+			if (ev.getUbicacion().equals(cliente.getUbicacion()) == true) {
+				events.add(ev);
+			}
 		}
+			
+		print_Events (events);
+			
+		clientSocket.close();
+	}
 }

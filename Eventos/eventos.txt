@@ -1,4 +1,4 @@
 14:35:00*incendio*fuego,llamas,agua*bavaria
 14:35:15*temblor*tierra,movimiento*salitre
-14:35:30*inundacion*agua*alacala
+14:35:30*inundacion*agua*salitre
 14:35:45*incendio*fuego,llamas*castilla

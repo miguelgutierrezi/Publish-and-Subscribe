@@ -3,6 +3,7 @@
  */
 package co.edu.javeriana.code;
 
+import java.net.InetAddress;
 import java.util.ArrayList;
 
 /**
@@ -10,55 +11,45 @@ import java.util.ArrayList;
  *
  */
 public class Cliente {
-	private String LocalIp;
-	private ArrayList<String> types;
-	private ArrayList<String> matches;
-	private ArrayList<Evento> eventos;
+	private InetAddress LocalIp;
+	private String ubicacion;
+	private int cant_hijos;
 	/**
 	 * 
 	 */
-	public Cliente(String LocalIp) {
+	public Cliente(InetAddress LocalIp, String ubicacion, int cant_hijos) {
 		super();
 		this.LocalIp = LocalIp;
-		types = new ArrayList<String>();
-		matches = new ArrayList<String>();
-		eventos = new ArrayList<Evento>();
+		this.ubicacion = ubicacion;
+		this.cant_hijos = cant_hijos;
 	}
 	
-	public void setLocalIp (String LocalIp) {
+	public void setUbicacion(String ubicacion) {
+		this.ubicacion = ubicacion;
+	}
+	
+	public String getUbicacion() {
+		return ubicacion;
+	}
+	
+	public void setCant_hijos (int cant_hijos) {
+		this.cant_hijos = cant_hijos;
+	}
+	
+	public int getCant_hijos() {
+		return cant_hijos;
+	}
+	
+	public void setLocalIp (InetAddress LocalIp) {
 		this.LocalIp = LocalIp;
 	}
 	
-	public String getLocalIp () {
+	public InetAddress getLocalIp () {
 		return LocalIp;
-	}
-	
-	public ArrayList<String> getTypes() {
-		return types;
-	}
-	
-	public void setTypes(ArrayList<String> types) {
-		this.types = types;
-	}
-	
-	public ArrayList<String> getMatches() {
-		return matches;
-	}
-	
-	public void setMatches(ArrayList<String> matches) {
-		this.matches = matches;
-	}
-	
-	public ArrayList<Evento> getEventos() {
-		return eventos;
-	}
-	
-	public void setEventos(ArrayList<Evento> eventos) {
-		this.eventos = eventos;
 	}
 	
 	@Override
 	public String toString() {
-		return "Cliente [LocalIp=" + ", types=" + types + ", matches=" + matches + ", eventos=" + eventos + "]";
+		return "Cliente [LocalIp=" + ", Ubicacion=" + ubicacion + ", Cant hijos=" + cant_hijos + "]";
 	}
 }
