@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
 
-import co.edu.javeriana.code.EventComparator;
 import co.edu.javeriana.code.Evento;
 import co.edu.javeriana.code.Utils;
 

@@ -11,6 +11,8 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import co.edu.javeriana.gui.ServerInterface;
 
@@ -19,28 +21,34 @@ import co.edu.javeriana.gui.ServerInterface;
  *
  */
 public class HiloServer extends Thread {
-	DataInputStream indata;
-	ObjectInputStream in;
-	ObjectOutputStream out;
-	DataOutputStream outdata;
-	Socket clientSocket;
+	private DataInputStream indata;
+	private ObjectInputStream in;
+	private ObjectOutputStream out;
+	private DataOutputStream outdata;
+	private Socket clientSocket;
+	private int idSession;
 	
-	public  HiloServer (Socket aClientSocket) 
+	public HiloServer (Socket aClientSocket, int id) 
 	{
-		try 
-	    {
-			  clientSocket = aClientSocket;
-			  in = new ObjectInputStream(clientSocket.getInputStream());
-			  out = new ObjectOutputStream(clientSocket.getOutputStream());
-			  outdata = new DataOutputStream(clientSocket.getOutputStream());
-			  this.start();
-		} 
-		catch(IOException e)
-	    {
-		      System.out.println("Connection:"+e.getMessage());
-	    }
+		this.clientSocket = aClientSocket;
+		this.idSession = id;
+		try {
+            outdata = new DataOutputStream(clientSocket.getOutputStream());
+            indata = new DataInputStream(clientSocket.getInputStream());
+        } catch (IOException ex) {
+            Logger.getLogger(HiloServer.class.getName()).log(Level.SEVERE, null, ex);
+        }
 	}
 	
+	public void desconectar() {
+		try {
+            clientSocket.close();
+        } catch (IOException ex) {
+            Logger.getLogger(HiloServer.class.getName()).log(Level.SEVERE, null, ex);
+        }
+	}
+	
+	@Override
 	public void run() {
 		ArrayList<Evento> eventos = new ArrayList<Evento>();
 		while (true) {

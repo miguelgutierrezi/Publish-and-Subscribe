@@ -28,6 +28,7 @@ public class ClientI {
 	public static Cliente agregar_Cliente () throws UnknownHostException {
 		Cliente cliente;
 		String ubicacion;
+		String nombre;
 		int cant_hijos;
 		InetAddress LocalIp = InetAddress.getLocalHost();
 		
@@ -35,11 +36,15 @@ public class ClientI {
 		System.out.print("Introduzca su ubicacion: ");
 		ubicacion = u.nextLine();
 		
+		Scanner n = new Scanner(System.in);
+		System.out.print("Introduzca su nombre: ");
+		nombre = n.nextLine();
+		
 		Scanner c = new Scanner(System.in);
 		System.out.print("Introduzca su cantidad de hijos: ");
 		cant_hijos = c.nextInt();
 		
-		cliente = new Cliente(LocalIp, ubicacion, cant_hijos);
+		cliente = new Cliente(LocalIp, ubicacion, nombre, cant_hijos);
 		
 		return cliente;
 	}

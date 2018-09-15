@@ -107,7 +107,7 @@ public class ServerInterface extends javax.swing.JFrame {
 		
 		JButton btnPublicarEvento = new JButton("Publicar evento");
 		btnPublicarEvento.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+			public void actionPerformed(ActionEvent arg0) {		
 				PublishEvent pub = new PublishEvent();
 				pub.setBounds(30, 0, 450, 300);
 				pub.setVisible(true);
