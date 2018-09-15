@@ -41,7 +41,7 @@ import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
-public class ServerInterface extends JFrame {
+public class ServerInterface extends javax.swing.JFrame {
 	private JTable table_1;
 	private ArrayList<Evento> eventos = new ArrayList<Evento>();
 	public Evento getEvento;
@@ -109,6 +109,7 @@ public class ServerInterface extends JFrame {
 		btnPublicarEvento.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				PublishEvent pub = new PublishEvent();
+				pub.setBounds(30, 0, 450, 300);
 				pub.setVisible(true);
 			}
 		});
@@ -153,6 +154,7 @@ public class ServerInterface extends JFrame {
                     ServerInterface frame = new ServerInterface();
                     frame.setTitle("Servidor");
                     frame.pack();
+                    frame.setBounds(0, 0, 450, 300);
                     frame.setVisible(true);
                 } catch (Exception e) {
                     e.printStackTrace();

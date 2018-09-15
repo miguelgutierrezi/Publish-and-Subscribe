@@ -6,9 +6,11 @@ package co.edu.javeriana.gui;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.EventQueue;
 import java.awt.Font;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 
 import co.edu.javeriana.code.Evento;
 import co.edu.javeriana.code.Utils;
@@ -28,6 +30,7 @@ public class PublishEvent extends JFrame {
 	private JTextField textEventType;
 	private JTextField textEventLoc;
 	private JTextField textEventChars;
+	
 	public PublishEvent(/*ServerInterface ser*/) {
 		getContentPane().setLayout(null);
 		
@@ -88,6 +91,11 @@ public class PublishEvent extends JFrame {
     			System.out.println(evento.getTipos());
     			System.out.println(evento.getMatch());
     			System.out.println(evento.getUbicacion());
+    			
+    			Component component = (Component) arg0.getSource();
+    			JFrame frame = (JFrame) SwingUtilities.getRoot(component);
+    			
+    			frame.dispose();
 			}
 		});
 		btnSaveEvent.setFont(new Font("Buxton Sketch", Font.PLAIN, 17));
