@@ -39,10 +39,16 @@ import javax.swing.BoxLayout;
 import java.awt.GridLayout;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 
 public class ServerInterface extends JFrame {
 	private JTable table_1;
 	private ArrayList<Evento> eventos = new ArrayList<Evento>();
+	public Evento getEvento;
+	
+	public void postEvento () {
+		
+	}
 	
 	public ServerInterface() {
 		JPanel panel = new JPanel();
@@ -52,7 +58,7 @@ public class ServerInterface extends JFrame {
 		
 		JButton btnSeleccionarArchivo = new JButton("Seleccionar archivo");
 		btnSeleccionarArchivo.setFont(new Font("Buxton Sketch", Font.PLAIN, 13));
-		btnSeleccionarArchivo.setBounds(10, 201, 144, 29);
+		btnSeleccionarArchivo.setBounds(11, 201, 144, 29);
 		btnSeleccionarArchivo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				JFileChooser file = new JFileChooser();
@@ -80,6 +86,9 @@ public class ServerInterface extends JFrame {
 		table_1.setColumnSelectionAllowed(true);
 		table_1.setBounds(11, 48, 413, 142);
 		table_1.setBorder(new LineBorder(new Color(0, 0, 0)));
+		
+		table_1.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		
 		table_1.setModel(new DefaultTableModel(
 			new Object[][] {
 			},
@@ -95,6 +104,22 @@ public class ServerInterface extends JFrame {
 		lblServidor.setFont(new Font("Buxton Sketch", Font.PLAIN, 25));
 		lblServidor.setBounds(11, 11, 413, 26);
 		panel.add(lblServidor);
+		
+		JButton btnPublicarEvento = new JButton("Publicar evento");
+		btnPublicarEvento.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				PublishEvent pub = new PublishEvent();
+				pub.setVisible(true);
+			}
+		});
+		btnPublicarEvento.setFont(new Font("Buxton Sketch", Font.PLAIN, 13));
+		btnPublicarEvento.setBounds(165, 201, 116, 29);
+		panel.add(btnPublicarEvento);
+		
+		JButton btnObtenerRespaldo = new JButton("Obtener respaldo");
+		btnObtenerRespaldo.setFont(new Font("Buxton Sketch", Font.PLAIN, 13));
+		btnObtenerRespaldo.setBounds(291, 201, 133, 29);
+		panel.add(btnObtenerRespaldo);
 	}
 	
 	private void agregarDatos() {
@@ -123,9 +148,11 @@ public class ServerInterface extends JFrame {
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
-            public void run() {
+			public void run() {
                 try {
                     ServerInterface frame = new ServerInterface();
+                    frame.setTitle("Servidor");
+                    frame.pack();
                     frame.setVisible(true);
                 } catch (Exception e) {
                     e.printStackTrace();

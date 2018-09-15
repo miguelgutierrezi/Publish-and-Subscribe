@@ -19,6 +19,20 @@ import java.util.concurrent.TimeUnit;
  *
  */
 public class Utils {
+	
+	public static ArrayList<String> Read_Matches (String line) {
+		ArrayList<String> matches = new ArrayList<String>();
+		StringTokenizer tokens = new StringTokenizer(line, ",");
+		String token;
+		
+		while (tokens.hasMoreTokens()) {
+			token = tokens.nextToken().trim();
+			matches.add(token);
+		}
+		
+		return matches;
+	}
+	
 	public static ArrayList<Evento> Read_File (String File_Name) throws IOException, FileNotFoundException, InterruptedException{
 
 		ArrayList<Evento> eventos = new ArrayList<Evento>();
