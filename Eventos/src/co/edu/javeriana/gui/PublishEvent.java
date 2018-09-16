@@ -21,6 +21,7 @@ import java.awt.event.ActionListener;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
+import javax.swing.JPanel;
 
 /**
  * @author Miguel
@@ -33,6 +34,10 @@ public class PublishEvent extends JFrame {
 	
 	public PublishEvent(/*ServerInterface ser*/) {
 		getContentPane().setLayout(null);
+		
+		JPanel panel = new JPanel();
+		panel.setBounds(0, 0, 10, 10);
+		getContentPane().add(panel);
 		
 		JLabel lblPublicarEvento = new JLabel("Publicar evento");
 		lblPublicarEvento.setBounds(0, 15, 434, 32);

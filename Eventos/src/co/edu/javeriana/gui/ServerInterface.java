@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 
 import co.edu.javeriana.code.Evento;
 import co.edu.javeriana.code.HiloServer;
+import co.edu.javeriana.code.ServerThread;
 import co.edu.javeriana.code.Utils;
 
 import java.awt.BorderLayout;
@@ -24,6 +25,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.SystemColor;
 import java.awt.Font;
 import javax.swing.JTextPane;
@@ -49,40 +51,33 @@ import java.awt.GridLayout;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+import javax.swing.JTabbedPane;
 
 public class ServerInterface extends javax.swing.JFrame {
 	private JTable table_1;
 	private static ArrayList<Evento> eventos = new ArrayList<Evento>();
 	private static ServerSocket server;
 	private final static int PORT = 4980;
+	private JTextField textEventType;
+	private JTextField textEventChars;
+	private JTextField textEventLoc;
 	
 	public ServerInterface() {
-		try {
-			this.setTitle("Servidor");
-            this.pack();
-            this.setBounds(0, 0, 450, 300);
-			this.setVisible(true);
-			server = new ServerSocket(PORT);
-			System.out.println("Servidor conectado al puerto: " + PORT);
-            //while (true) {
-            	Socket client = server.accept();
-    			HiloServer hilo = new HiloServer(client, this);
-    			System.out.println("Entra hilo");
-    			hilo.start();
-            //}
-            
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 		
+		ServerThread s = new ServerThread(this);
+		
+		getContentPane().setLayout(null);
+		
+		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane.setBounds(0, 0, 434, 288);
+		getContentPane().add(tabbedPane);
 		JPanel panel = new JPanel();
-		
-		getContentPane().add(panel, BorderLayout.CENTER);
+		tabbedPane.addTab("Feed", null, panel, null);
 		panel.setLayout(null);
 		
 		JButton btnSeleccionarArchivo = new JButton("Seleccionar archivo");
 		btnSeleccionarArchivo.setFont(new Font("Buxton Sketch", Font.PLAIN, 13));
-		btnSeleccionarArchivo.setBounds(11, 201, 144, 29);
+		btnSeleccionarArchivo.setBounds(55, 204, 144, 29);
 		btnSeleccionarArchivo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				JFileChooser file = new JFileChooser();
@@ -105,10 +100,11 @@ public class ServerInterface extends javax.swing.JFrame {
 		});
 		
 		table_1 = new JTable();
+		table_1.setBounds(0, 48, 429, 145);
+		panel.add(table_1);
 		table_1.setFont(new Font("Buxton Sketch", Font.PLAIN, 11));
 		table_1.setSurrendersFocusOnKeystroke(true);
 		table_1.setColumnSelectionAllowed(true);
-		table_1.setBounds(11, 48, 413, 142);
 		table_1.setBorder(new LineBorder(new Color(0, 0, 0)));
 		
 		table_1.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
@@ -120,7 +116,6 @@ public class ServerInterface extends javax.swing.JFrame {
 				"Hora", "Tipo", "Datos", "Ubicacion"
 			}
 		));
-		panel.add(table_1);
 		panel.add(btnSeleccionarArchivo);
 		
 		JLabel lblServidor = new JLabel("Servidor");
@@ -129,26 +124,100 @@ public class ServerInterface extends javax.swing.JFrame {
 		lblServidor.setBounds(11, 11, 413, 26);
 		panel.add(lblServidor);
 		
-		JButton btnPublicarEvento = new JButton("Publicar evento");
-		btnPublicarEvento.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {		
-				PublishEvent pub = new PublishEvent();
-				pub.setBounds(30, 0, 450, 300);
-				pub.setVisible(true);
+		JButton btnObtenerRespaldo = new JButton("Obtener respaldo");
+		btnObtenerRespaldo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		btnPublicarEvento.setFont(new Font("Buxton Sketch", Font.PLAIN, 13));
-		btnPublicarEvento.setBounds(165, 201, 116, 29);
-		panel.add(btnPublicarEvento);
-		
-		JButton btnObtenerRespaldo = new JButton("Obtener respaldo");
 		btnObtenerRespaldo.setFont(new Font("Buxton Sketch", Font.PLAIN, 13));
-		btnObtenerRespaldo.setBounds(291, 201, 133, 29);
+		btnObtenerRespaldo.setBounds(228, 204, 133, 29);
 		panel.add(btnObtenerRespaldo);
+		
+		JPanel panel_1 = new JPanel();
+		tabbedPane.addTab("Publicar evento", null, panel_1, null);
+		panel_1.setLayout(null);
+		
+		JLabel label = new JLabel("Publicar evento");
+		label.setBounds(10, 5, 409, 32);
+		label.setHorizontalAlignment(SwingConstants.CENTER);
+		label.setFont(new Font("Buxton Sketch", Font.PLAIN, 25));
+		panel_1.add(label);
+		
+		textEventType = new JTextField();
+		textEventType.setBounds(230, 87, 86, 20);
+		textEventType.setColumns(10);
+		panel_1.add(textEventType);
+		
+		JLabel lblTipo = new JLabel("Ingrese el tipo de evento");
+		lblTipo.setBounds(10, 89, 120, 18);
+		lblTipo.setFont(new Font("Buxton Sketch", Font.PLAIN, 14));
+		panel_1.add(lblTipo);
+		
+		JLabel lblLoc = new JLabel("Ingrese la ubicaci\u00F3n del evento");
+		lblLoc.setBounds(10, 146, 147, 18);
+		lblLoc.setFont(new Font("Buxton Sketch", Font.PLAIN, 14));
+		panel_1.add(lblLoc);
+		
+		textEventChars = new JTextField();
+		textEventChars.setBounds(230, 116, 86, 20);
+		textEventChars.setColumns(10);
+		panel_1.add(textEventChars);
+		
+		JLabel lblChar = new JLabel("Ingrese las caracter\u00EDsticas del evento");
+		lblChar.setBounds(10, 118, 181, 18);
+		lblChar.setFont(new Font("Buxton Sketch", Font.PLAIN, 14));
+		panel_1.add(lblChar);
+		
+		textEventLoc = new JTextField();
+		textEventLoc.setBounds(230, 144, 86, 20);
+		textEventLoc.setColumns(10);
+		panel_1.add(textEventLoc);
+		
+		JButton button = new JButton("Guardar evento");
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				LocalTime hora = LocalTime.now();
+				String tipo = textEventType.getText();
+				String ubicacion = textEventLoc.getText();
+				
+				String match = textEventChars.getText();
+				
+				ArrayList<String> matches = new ArrayList<String>(); 
+				matches = Utils.Read_Matches(match);
+				
+				System.out.println(matches);
+				
+				Evento evento = new Evento(hora, tipo, matches, ubicacion);
+				
+				System.out.println(evento.getHora_publicacion());
+    			System.out.println(evento.getTipos());
+    			System.out.println(evento.getMatch());
+    			System.out.println(evento.getUbicacion());
+    			
+    			eventos.add(evento);
+    			
+    			agregarDatos();
+			}
+		});
+		button.setBounds(155, 190, 123, 44);
+		button.setFont(new Font("Buxton Sketch", Font.PLAIN, 17));
+		panel_1.add(button);
+		
+		JLabel lblHora = new JLabel("La hora de publicaci\u00F3n es:");
+		lblHora.setFont(new Font("Buxton Sketch", Font.PLAIN, 14));
+		lblHora.setBounds(10, 48, 181, 18);
+		panel_1.add(lblHora);
+		
+		JLabel lblHour = new JLabel("");
+		lblHour.setFont(new Font("Buxton Sketch", Font.PLAIN, 14));
+		lblHour.setBounds(230, 48, 181, 18);
+		lblHour.setText(LocalTime.now().toString());
+		panel_1.add(lblHour);
 	}
 	
-	private void agregarDatos() {
+	public void agregarDatos() {
 
+		boolean ex = true;
 		DefaultTableModel tableModel = new DefaultTableModel();
 		String[] columnNames = {"Hora", "Tipo", "Datos", "Ubicacion"};
 		tableModel.setColumnIdentifiers(columnNames);
@@ -156,19 +225,24 @@ public class ServerInterface extends javax.swing.JFrame {
 
 		for (int i = 0; i < eventos.size(); i++) {
 			
-			while(true) {
+			while(ex) {
 				if ((eventos.get(i).getHora_publicacion().equals(LocalTime.now()) == true)  || (eventos.get(i).getHora_publicacion().isBefore(LocalTime.now()))) {
 					fila[0] = eventos.get(i).getHora_publicacion();
 					fila[1] = eventos.get(i).getTipos();
 					fila[2] = eventos.get(i).getMatch();
 					fila[3] = eventos.get(i).getUbicacion();
 					tableModel.addRow(fila);
-					break;
+					ex = false;
 				}
 			}
+			ex = true;
 		}
 
 		table_1.setModel(tableModel);
+	}
+	
+	public ArrayList<Evento> getEventos() {
+		return eventos;
 	}
 	
 	public static void main(String[] args) throws IOException {
@@ -178,7 +252,7 @@ public class ServerInterface extends javax.swing.JFrame {
                     ServerInterface frame = new ServerInterface();
             		frame.setTitle("Servidor");
                     frame.pack();
-                    frame.setBounds(0, 0, 450, 300);
+                    frame.setBounds(0, 0, 450, 320);
                     frame.setVisible(true);
                 } catch (Exception e1) {
                     e1.printStackTrace();
