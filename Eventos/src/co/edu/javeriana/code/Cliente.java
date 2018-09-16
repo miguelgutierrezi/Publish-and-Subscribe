@@ -28,6 +28,10 @@ public class Cliente {
 		this.cant_hijos = cant_hijos;
 	}
 	
+	public Cliente() {
+		tipos = new ArrayList<String>();
+	}
+	
 	public void setUbicacion(String ubicacion) {
 		this.ubicacion = ubicacion;
 	}

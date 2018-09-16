@@ -21,31 +21,22 @@ import co.edu.javeriana.gui.ServerInterface;
  *
  */
 public class HiloServer extends Thread {
+	
 	private DataInputStream indata;
 	private ObjectInputStream in;
 	private ObjectOutputStream out;
 	private DataOutputStream outdata;
+	private ServerInterface server;
 	private Socket clientSocket;
+	public static ArrayList<HiloServer> user = new ArrayList<HiloServer>();
+	private String nombre;
 	private int idSession;
 	
-	public HiloServer (Socket aClientSocket, int id) 
+	public HiloServer (Socket aClientSocket, ServerInterface serv) throws Exception
 	{
 		this.clientSocket = aClientSocket;
-		this.idSession = id;
-		try {
-            outdata = new DataOutputStream(clientSocket.getOutputStream());
-            indata = new DataInputStream(clientSocket.getInputStream());
-        } catch (IOException ex) {
-            Logger.getLogger(HiloServer.class.getName()).log(Level.SEVERE, null, ex);
-        }
-	}
-	
-	public void desconectar() {
-		try {
-            clientSocket.close();
-        } catch (IOException ex) {
-            Logger.getLogger(HiloServer.class.getName()).log(Level.SEVERE, null, ex);
-        }
+		this.server = serv;
+		user.add(this);
 	}
 	
 	@Override
@@ -54,10 +45,19 @@ public class HiloServer extends Thread {
 		while (true) {
 			try {
 				eventos = (ArrayList<Evento>) in.readObject();
-			} catch (ClassNotFoundException | IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				for (int i=0; i<user.size(); i++) {
+					out = new ObjectOutputStream(clientSocket.getOutputStream());
+					out.writeObject(eventos);
+				}
+				
+			} catch (Exception e) {
+				break;
 			}
 		}
+	}
+	
+	private void envioEventos(ArrayList<Evento> events) throws Exception {
+		out = new ObjectOutputStream(clientSocket.getOutputStream());
+		out.writeObject(events);
 	}
 }

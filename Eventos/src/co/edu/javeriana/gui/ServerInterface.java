@@ -11,6 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import co.edu.javeriana.code.Evento;
+import co.edu.javeriana.code.HiloServer;
 import co.edu.javeriana.code.Utils;
 
 import java.awt.BorderLayout;
@@ -20,6 +21,8 @@ import javax.swing.JTextField;
 import java.awt.TextArea;
 import java.awt.TextField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Color;
 import java.awt.SystemColor;
 import java.awt.Font;
@@ -27,8 +30,14 @@ import javax.swing.JTextPane;
 import javax.swing.filechooser.FileSystemView;
 
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.ObjectOutputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.time.LocalTime;
 import java.awt.event.ActionEvent;
 import javax.swing.JTable;
@@ -43,14 +52,29 @@ import javax.swing.SwingUtilities;
 
 public class ServerInterface extends javax.swing.JFrame {
 	private JTable table_1;
-	private ArrayList<Evento> eventos = new ArrayList<Evento>();
-	public Evento getEvento;
-	
-	public void postEvento () {
-		
-	}
+	private static ArrayList<Evento> eventos = new ArrayList<Evento>();
+	private static ServerSocket server;
+	private final static int PORT = 4980;
 	
 	public ServerInterface() {
+		try {
+			this.setTitle("Servidor");
+            this.pack();
+            this.setBounds(0, 0, 450, 300);
+			this.setVisible(true);
+			server = new ServerSocket(PORT);
+			System.out.println("Servidor conectado al puerto: " + PORT);
+            //while (true) {
+            	Socket client = server.accept();
+    			HiloServer hilo = new HiloServer(client, this);
+    			System.out.println("Entra hilo");
+    			hilo.start();
+            //}
+            
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		JPanel panel = new JPanel();
 		
 		getContentPane().add(panel, BorderLayout.CENTER);
@@ -147,17 +171,17 @@ public class ServerInterface extends javax.swing.JFrame {
 		table_1.setModel(tableModel);
 	}
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
                 try {
                     ServerInterface frame = new ServerInterface();
-                    frame.setTitle("Servidor");
+            		frame.setTitle("Servidor");
                     frame.pack();
                     frame.setBounds(0, 0, 450, 300);
                     frame.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
+                } catch (Exception e1) {
+                    e1.printStackTrace();
                 }
             }
         });

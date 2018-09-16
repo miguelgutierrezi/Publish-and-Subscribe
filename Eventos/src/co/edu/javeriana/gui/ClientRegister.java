@@ -19,6 +19,7 @@ import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.awt.event.ActionEvent;
@@ -31,7 +32,9 @@ public class ClientRegister extends JFrame {
 	private JTextField textNombre;
 	private JTextField textHijos;
 	private JTextField textLoc;
-	public ClientRegister() {
+	public Cliente cliente;
+	
+	public ClientRegister() throws ClassNotFoundException, IOException{
 		getContentPane().setLayout(null);
 		
 		JLabel lblRegistrarCliente = new JLabel("Registrar Cliente");
@@ -73,7 +76,6 @@ public class ClientRegister extends JFrame {
 		JButton btnNewButton = new JButton("Continuar");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Cliente cliente;
 				InetAddress localIp = null;
 				String nombre, ubicacion;
 				int cant_hijos;
@@ -91,17 +93,14 @@ public class ClientRegister extends JFrame {
 				cliente = new Cliente(localIp, ubicacion, nombre, cant_hijos);
 				cliente.setLocalIp(localIp);
 				
-				System.out.println(cliente.getNombre());
-				System.out.println(cliente.getCant_hijos());
-				System.out.println(cliente.getUbicacion());
-				
-				ClientInterface cli = new ClientInterface();
-				cli.setBounds(30, 0, 450, 300);
-				cli.setTitle("Client Feed");
-				cli.setVisible(true);
-				
 				Component component = (Component) arg0.getSource();
     			JFrame frame = (JFrame) SwingUtilities.getRoot(component);
+				
+				ClientInterface cli;
+				cli = new ClientInterface((ClientRegister) frame);
+				cli.setBounds(30, 0, 450, 300);
+				cli.setTitle("Feed de " + cliente.getNombre());
+				cli.setVisible(true);
     			
     			frame.dispose();
 			}
