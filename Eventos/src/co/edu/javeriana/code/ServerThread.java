@@ -33,7 +33,7 @@ public class ServerThread extends Thread{
 			
 			while (true) {
 				Socket client = listener.accept();
-				System.out.println("Mensaje obtenido");
+				System.out.println("Evento obtenido");
 				ServerConnect conn = new ServerConnect(client, cli);
 			}
 			

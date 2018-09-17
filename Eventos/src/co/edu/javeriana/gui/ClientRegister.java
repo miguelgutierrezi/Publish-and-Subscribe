@@ -1,3 +1,4 @@
+// http://www.ejbtutorial.com/distributed-systems/using-sockets-to-create-a-group-chat-system-with-a-graphical-interface
 /**
  * 
  */
@@ -21,7 +22,9 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.net.InetAddress;
+import java.net.Socket;
 import java.net.UnknownHostException;
 import java.awt.event.ActionEvent;
 import javax.swing.JTabbedPane;
@@ -35,6 +38,7 @@ public class ClientRegister extends JFrame {
 	private JTextField textNombre;
 	private JTextField textHijos;
 	private JTextField textLoc;
+	ObjectOutputStream object;
 	public Cliente cliente = new Cliente(null, null, null, 0);
 	JLabel label = new JLabel("Feed de " + cliente.getNombre());
 	JLabel label_1 = new JLabel("Su ubicaci\u00F3n actual es: " + cliente.getUbicacion());
@@ -139,6 +143,13 @@ public class ClientRegister extends JFrame {
 		label_1.setFont(new Font("Buxton Sketch", Font.PLAIN, 18));
 		label_1.setBounds(10, 47, 257, 14);
 		panel_1.add(label_1);
+		
+		try {
+			Socket clientSocket = new Socket ("localhost", 4980);
+			object = new ObjectOutputStream(clientSocket.getOutputStream());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
