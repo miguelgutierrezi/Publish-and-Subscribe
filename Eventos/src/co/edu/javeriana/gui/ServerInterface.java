@@ -65,7 +65,7 @@ public class ServerInterface extends javax.swing.JFrame {
 	
 	public ServerInterface() {
 		
-		ServerThread s = new ServerThread(this);
+		//ServerThread s = new ServerThread(this);
 		
 		getContentPane().setLayout(null);
 		
@@ -251,12 +251,21 @@ public class ServerInterface extends javax.swing.JFrame {
 	public static void main(String[] args) throws IOException {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
-                try {
+                ServerSocket ss;
+                System.out.println("Inicializando servidor");
+				try {
                     ServerInterface frame = new ServerInterface();
             		frame.setTitle("Servidor");
                     frame.pack();
                     frame.setBounds(0, 0, 450, 320);
                     frame.setVisible(true);
+                    ss = new ServerSocket(4980);
+                    while (true) {
+                    	Socket socket;
+                    	socket = ss.accept();
+                    	System.out.println("Nueva conexión entrante: " + socket);
+                    	((ServerThread) new ServerThread(socket, frame)).start();
+                    }
                 } catch (Exception e1) {
                     e1.printStackTrace();
                 }

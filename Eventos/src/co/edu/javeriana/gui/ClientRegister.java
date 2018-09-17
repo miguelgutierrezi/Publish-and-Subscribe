@@ -15,6 +15,8 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
 import co.edu.javeriana.code.Cliente;
+import co.edu.javeriana.code.Evento;
+import co.edu.javeriana.code.HiloClient;
 import co.edu.javeriana.code.ServerThread;
 
 import java.awt.Font;
@@ -26,6 +28,8 @@ import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.time.LocalTime;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.JTabbedPane;
 import javax.swing.JPanel;
@@ -39,7 +43,7 @@ public class ClientRegister extends JFrame {
 	private JTextField textHijos;
 	private JTextField textLoc;
 	ObjectOutputStream object;
-	public Cliente cliente = new Cliente(null, null, null, 0);
+	public static Cliente cliente = new Cliente(null, null, null, 0);
 	JLabel label = new JLabel("Feed de " + cliente.getNombre());
 	JLabel label_1 = new JLabel("Su ubicaci\u00F3n actual es: " + cliente.getUbicacion());
 	
@@ -147,9 +151,25 @@ public class ClientRegister extends JFrame {
 		try {
 			Socket clientSocket = new Socket ("localhost", 4980);
 			object = new ObjectOutputStream(clientSocket.getOutputStream());
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (Exception e) {e.printStackTrace();}
+		
+		
+	}
+	
+	public static void print_Events (ArrayList<Evento> eventos) {
+		
+		for (Evento e: eventos) {
+    		if ((e.getHora_publicacion().equals(LocalTime.now()) == true) || (e.getHora_publicacion().isBefore(LocalTime.now()))) {
+    			System.out.println("********************************************************************");
+    			System.out.println(e.getHora_publicacion());
+    			System.out.println(e.getTipos());
+    			System.out.println(e.getMatch());	
+    		}
 		}
+	}
+	
+	public static Cliente getCliente() {
+		return cliente;
 	}
 
 	/**
@@ -165,6 +185,8 @@ public class ClientRegister extends JFrame {
                     frame.pack();
                     frame.setBounds(0, 0, 450, 300);
                     frame.setVisible(true);
+                    HiloClient thread = new HiloClient(frame);
+                    thread.start();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

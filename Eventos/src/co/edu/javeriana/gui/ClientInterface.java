@@ -53,8 +53,8 @@ public class ClientInterface extends JFrame {
 			in = new ObjectInputStream(clien.getInputStream());
 			outdata.writeUTF(cliente.getNombre());
 			
-			HiloClient hilo = new HiloClient(clien, this);
-			hilo.start();
+			//HiloClient hilo = new HiloClient(clien, this);
+			//hilo.start();
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -90,7 +90,7 @@ public void agregarEventos (ArrayList<Evento> eventos) {
 	}
 }
 	
-public static void print_Events (ArrayList<Evento> eventos) {
+	public static void print_Events (ArrayList<Evento> eventos) {
 		
 		for (Evento e: eventos) {
     		if ((e.getHora_publicacion().equals(LocalTime.now()) == true) || (e.getHora_publicacion().isBefore(LocalTime.now()))) {
@@ -100,6 +100,10 @@ public static void print_Events (ArrayList<Evento> eventos) {
     			System.out.println(e.getMatch());	
     		}
 		}
+	}
+	
+	public static Cliente getCliente() {
+		return cliente;
 	}
 	
 	/**
