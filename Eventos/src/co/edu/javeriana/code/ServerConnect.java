@@ -58,6 +58,8 @@ public class ServerConnect extends Thread {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
+			
+			ServerIps se = new ServerIps(event, serv, destiny);
 
 			if (socket != null)
 				try { socket.close(); } catch (IOException ex) {System.out.println("close:" + ex.getMessage());}
