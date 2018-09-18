@@ -42,6 +42,8 @@ public class HiloClient extends Thread{
 		try {
 			ArrayList<Evento> eventos = new ArrayList<Evento>();
 			ArrayList<Evento> events = new ArrayList<Evento>();
+			ArrayList<String> types = new ArrayList<String>();
+			ArrayList<String> matches = new ArrayList<String>();
 			clientSocket = new Socket(ipServer, 4980);
 			out = new ObjectOutputStream(clientSocket.getOutputStream());
 			in = new ObjectInputStream(clientSocket.getInputStream());
@@ -55,8 +57,19 @@ public class HiloClient extends Thread{
 				}
 			}
 			
-			this.cliente.agregarDatos(events);
+			types = Utils.Obtain_Types(events);
+			matches = Utils.Obtain_Matches(events);
+			
+			//types.add("ninguno");
+			//matches.add("ninguno");
+			
+			this.cliente.agregarTipos(types);
+			this.cliente.agregarMatches(matches);
+			this.cliente.agregarDatos(events, matches, types);
+			
 			this.cliente.setEvents(events);
+			this.cliente.setTipos(types);
+			this.cliente.setMatches(matches);
 			
 			//out.writeObject(cliente.getEvento());
 			
