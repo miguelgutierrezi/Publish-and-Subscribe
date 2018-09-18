@@ -140,6 +140,19 @@ public class ClientRegister extends JFrame {
 		table_1.setBounds(10, 79, 409, 112);
 		panel_1.add(table_1);
 		
+		JButton btnActualizar = new JButton("Actualizar");
+		btnActualizar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Component component = (Component) e.getSource();
+	    		JFrame frame = (JFrame) SwingUtilities.getRoot(component);
+				
+				HiloClient thread = new HiloClient((ClientRegister) frame, eventos);
+				thread.start();
+			}
+		});
+		btnActualizar.setBounds(160, 202, 89, 23);
+		panel_1.add(btnActualizar);
+		
 		JPanel panel_2 = new JPanel();
 		tabbedPane.addTab("New tab", null, panel_2, null);
 		panel_2.setLayout(null);
@@ -197,7 +210,7 @@ public class ClientRegister extends JFrame {
 				
 				eventos.add(evento);
 				
-				agregarDatos(eventos);
+				//agregarDatos(eventos);
 				
 				/*Component component = (Component) e.getSource();
 	    		JFrame frame = (JFrame) SwingUtilities.getRoot(component);

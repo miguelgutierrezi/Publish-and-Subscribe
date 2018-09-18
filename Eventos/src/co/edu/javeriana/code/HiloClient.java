@@ -10,6 +10,8 @@ import java.io.ObjectOutputStream;
 import java.lang.reflect.Array;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import co.edu.javeriana.gui.ClientInterface;
 import co.edu.javeriana.gui.ClientRegister;
@@ -24,9 +26,15 @@ public class HiloClient extends Thread{
 	private ObjectOutputStream out;
 	private ClientRegister cliente;
 	private String ipServer = "127.0.0.1";
+	private ArrayList<Evento> evs = new ArrayList<Evento>();
 	
 	public HiloClient(ClientRegister cliente) {
 		this.cliente = cliente;
+	}
+	
+	public HiloClient(ClientRegister cliente, ArrayList<Evento> evs) {
+		this.cliente = cliente;
+		this.evs = evs;
 	}
 	
 	@Override
@@ -39,7 +47,7 @@ public class HiloClient extends Thread{
 			in = new ObjectInputStream(clientSocket.getInputStream());
 			System.out.println("Saludo");
 			
-			eventos = (ArrayList<Evento>) in.readObject();
+			eventos = ((ArrayList<Evento>) in.readObject());
 			
 			for (Evento e: eventos) {
 				if (e.getUbicacion().equals(this.cliente.getCliente().getUbicacion()) == true) {
