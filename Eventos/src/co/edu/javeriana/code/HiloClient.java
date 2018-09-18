@@ -23,6 +23,7 @@ public class HiloClient extends Thread{
 	private ObjectInputStream in;
 	private ObjectOutputStream out;
 	private ClientRegister cliente;
+	private String ipServer = "127.0.0.1";
 	
 	public HiloClient(ClientRegister cliente) {
 		this.cliente = cliente;
@@ -33,7 +34,7 @@ public class HiloClient extends Thread{
 		try {
 			ArrayList<Evento> eventos = new ArrayList<Evento>();
 			ArrayList<Evento> events = new ArrayList<Evento>();
-			clientSocket = new Socket("localhost", 4980);
+			clientSocket = new Socket(ipServer, 4980);
 			out = new ObjectOutputStream(clientSocket.getOutputStream());
 			in = new ObjectInputStream(clientSocket.getInputStream());
 			System.out.println("Saludo");
@@ -46,12 +47,10 @@ public class HiloClient extends Thread{
 				}
 			}
 			
-			this.cliente.print_Events(events);
+			this.cliente.agregarDatos(events);
 			
 			out.writeObject(events);
 			
-			in.close();
-			out.close();
 			clientSocket.close();
 			
 		} catch (IOException e) {

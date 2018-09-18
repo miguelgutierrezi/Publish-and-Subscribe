@@ -67,6 +67,7 @@ public class Server {
 			BufferedReader inFromClient = new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
 			DataOutputStream outToClient = new DataOutputStream(connectionSocket.getOutputStream());
 			ObjectOutputStream objectOutput = new ObjectOutputStream(connectionSocket.getOutputStream());
+			System.out.println("Nueva conexión entrante: " + connectionSocket);
 			objectOutput.writeObject(eventos);
 			//outToClient.writeBytes(capitalizedSentence);
 		}

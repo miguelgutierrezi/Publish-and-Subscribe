@@ -51,14 +51,9 @@ public class ServerThread extends Thread{
 		ArrayList<Evento> eventos = new ArrayList<Evento>();
 		try {
 			
-			eventos = (ArrayList<Evento>) din.readObject();
-			this.cli.getEventos().clear();
-			this.cli.getEventos().addAll(eventos);
 			this.cli.agregarDatos();
-			dout.writeObject(eventos);
+			dout.writeObject(this.cli.getEventos());
 		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 		desconectar();
