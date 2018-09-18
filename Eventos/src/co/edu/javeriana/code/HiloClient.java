@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
+import co.edu.javeriana.gui.ClientInterface;
 import co.edu.javeriana.gui.ClientRegister;
 
 /**
