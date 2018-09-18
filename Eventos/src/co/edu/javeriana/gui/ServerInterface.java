@@ -11,8 +11,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import co.edu.javeriana.code.Evento;
-import co.edu.javeriana.code.HiloServer;
-import co.edu.javeriana.code.ServerIps;
 import co.edu.javeriana.code.ServerThread;
 import co.edu.javeriana.code.Utils;
 
