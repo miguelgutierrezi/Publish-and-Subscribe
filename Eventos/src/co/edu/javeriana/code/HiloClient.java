@@ -48,8 +48,9 @@ public class HiloClient extends Thread{
 			}
 			
 			this.cliente.agregarDatos(events);
+			this.cliente.setEvents(events);
 			
-			out.writeObject(events);
+			//out.writeObject(cliente.getEvento());
 			
 			clientSocket.close();
 			

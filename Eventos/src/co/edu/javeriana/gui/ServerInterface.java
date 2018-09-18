@@ -264,7 +264,7 @@ public class ServerInterface extends javax.swing.JFrame {
                     	Socket socket;
                     	socket = ss.accept();
                     	System.out.println("Nueva conexión entrante: " + socket);
-                    	((ServerThread) new ServerThread(socket, frame)).start();
+                    	//((ServerThread) new ServerThread(socket, frame)).start();
                     }
                 } catch (Exception e1) {
                     e1.printStackTrace();

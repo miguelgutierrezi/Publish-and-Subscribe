@@ -11,6 +11,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 
 import co.edu.javeriana.gui.ClientRegister;
+import co.edu.javeriana.gui.Server;
 import co.edu.javeriana.gui.ServerInterface;
 
 /**
@@ -19,43 +20,36 @@ import co.edu.javeriana.gui.ServerInterface;
  */
 public class ServerThread extends Thread{
 	
+	private ArrayList<Evento> eventos = new ArrayList<Evento>();
 	private Socket socket;
-	private ServerInterface cli;
+	private Server ser;
 	private int serverPort = 4980;
 	private ObjectInputStream din;
 	private ObjectOutputStream dout;
 	
-	public ServerThread (Socket socket, ServerInterface c) {
+	public ServerThread (Socket socket, ArrayList<Evento> eventos, Server s) {
 		this.socket = socket;
-		this.cli = c;
+		this.ser = s;
 		this.serverPort = 4980;
-
-		try {
-			this.dout = new ObjectOutputStream(socket.getOutputStream());
-			this.din = new ObjectInputStream(socket.getInputStream());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public void desconectar() {
-		try {
-			this.socket.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		this.eventos = eventos;
 	}
 	
 	@Override
 	public void run() {
-		ArrayList<Evento> eventos = new ArrayList<Evento>();
-		try {
-			
-			this.cli.agregarDatos();
-			dout.writeObject(this.cli.getEventos());
-		} catch (IOException e) {
-			e.printStackTrace();
+		Evento e;
+		while (true) {
+			try {
+				din = new ObjectInputStream(socket.getInputStream());
+				dout = new ObjectOutputStream(socket.getOutputStream());
+				
+				e = (Evento) din.readObject();
+				
+				eventos.add(e);
+				
+				dout.writeObject(eventos);
+			} catch (Exception ex) {
+				break;
+			}
 		}
-		desconectar();
 	}
 }

@@ -1,4 +1,4 @@
-11:25:00*incendio*fuego,llamas,agua*bavaria
-11:27:15*temblor*tierra,movimiento*salitre
-11:25:30*inundacion*agua*salitre
-11:25:45*incendio*fuego,llamas*castilla
+01:05:00*incendio*fuego,llamas,agua*bavaria
+01:07:15*temblor*tierra,movimiento*salitre
+01:05:30*inundacion*agua*salitre
+01:05:45*incendio*fuego,llamas*castilla
